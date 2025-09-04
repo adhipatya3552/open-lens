@@ -47,7 +47,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-8 mt-16 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+        <div className="grid grid-cols-2 gap-8 mt-16 animate-fade-in" style={{ animationDelay: '0.6s' }}>
           <div className="text-center">
             <div className="text-3xl sm:text-4xl font-bold text-white mb-2">10M+</div>
             <div className="text-gray-400 text-sm sm:text-base">Media Files</div>
@@ -55,10 +55,6 @@ const Hero: React.FC = () => {
           <div className="text-center">
             <div className="text-3xl sm:text-4xl font-bold text-white mb-2">50K+</div>
             <div className="text-gray-400 text-sm sm:text-base">Creators</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$2M+</div>
-            <div className="text-gray-400 text-sm sm:text-base">Creator Earnings</div>
           </div>
         </div>
       </div>

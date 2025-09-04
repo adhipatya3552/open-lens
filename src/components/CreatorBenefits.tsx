@@ -5,15 +5,10 @@ import { Benefit } from '../types';
 const CreatorBenefits: React.FC = () => {
   const benefits: Benefit[] = [
     {
-      icon: TrendingUp,
-      title: 'Higher Earnings',
-      description: 'Earn up to 70% commission on every download with transparent pricing and instant payouts.',
-      highlight: true
-    },
-    {
       icon: Users,
       title: 'Global Audience',
       description: 'Reach millions of buyers worldwide across diverse industries and creative fields.'
+      highlight: true
     },
     {
       icon: Award,
@@ -113,8 +108,8 @@ const CreatorBenefits: React.FC = () => {
         {/* CTA Section */}
         <div className="text-center mt-16">
           <button className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-purple-500 hover:to-cyan-500 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25">
-            Start Earning Today
-            <TrendingUp className="inline-block w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+            Join the Community
+            <Users className="inline-block w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
           </button>
         </div>
       </div>

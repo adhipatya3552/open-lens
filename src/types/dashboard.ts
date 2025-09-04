@@ -13,7 +13,6 @@ export type UserStats = {
   views: number;
   followers: number;
   following: number;
-  earnings: number;
 };
 
 export interface User {
@@ -55,15 +54,10 @@ export interface AnalyticsData {
     date: string;
     downloads: number;
   }[];
-  dailyEarnings: {
-    date: string;
-    amount: number;
-  }[];
   popularContent: {
     item: MediaItem;
     views: number;
     downloads: number;
-    earnings: number;
   }[];
   topCountries: {
     country: string;

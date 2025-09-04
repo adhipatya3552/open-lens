@@ -1,46 +1,43 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import { Sidebar } from "./Sidebar";
-import { User } from "../../types/dashboard";
-
-// Mock user data - replace with actual user data from your auth system
-const mockUser: User = {
-  id: "1",
-  name: "John Doe",
-  username: "johndoe",
-  email: "john@example.com",
-  avatar: "https://ui-avatars.com/api/?name=John+Doe",
-  bio: "Digital content creator",
-  isVerified: true,
-  isCreator: true,
-  joinedDate: new Date().toISOString(),
-  stats: {
-    uploads: 42,
-    downloads: 1337,
-    followers: 256,
-    views: 5000,
-    following: 120,
-    earnings: 250.75,
-  },
-  badges: [
-    { id: "1", name: "Pro Creator", color: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200", icon: "💎" },
-    { id: "2", name: "Early Adopter", color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200", icon: "🚀" },
-  ],
-  socialLinks: {
-    website: "https://johndoe.com",
-    twitter: "johndoe",
-    instagram: "johndoe.creates",
-  }
-};
 
 export function DashboardLayout() {
+  const { user } = useUser();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  // Transform Clerk user to our User type
+  const transformedUser = {
+    id: user.id,
+    name: user.fullName || user.firstName || "User",
+    username: user.username || user.emailAddresses[0]?.emailAddress.split('@')[0] || "user",
+    email: user.emailAddresses[0]?.emailAddress || "",
+    avatar: user.imageUrl,
+    bio: user.publicMetadata?.bio as string || "OpenLens community member",
+    isVerified: user.publicMetadata?.isVerified as boolean || false,
+    isCreator: user.publicMetadata?.isCreator as boolean || true,
+    joinedDate: user.createdAt?.toISOString() || new Date().toISOString(),
+    stats: {
+      uploads: user.publicMetadata?.uploads as number || 0,
+      downloads: user.publicMetadata?.downloads as number || 0,
+      followers: user.publicMetadata?.followers as number || 0,
+      views: user.publicMetadata?.views as number || 0,
+      following: user.publicMetadata?.following as number || 0,
+    },
+    badges: user.publicMetadata?.badges as any[] || [],
+    socialLinks: user.publicMetadata?.socialLinks as any || {},
+  };
 
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       {/* Sidebar */}
       <Sidebar 
-        user={mockUser} 
+        user={transformedUser} 
         isExpanded={isSidebarExpanded}
         onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
       />

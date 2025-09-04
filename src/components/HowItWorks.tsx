@@ -15,12 +15,7 @@ const HowItWorks: React.FC = () => {
       icon: Palette,
       title: 'Set Your License',
       description: 'Choose from various licensing options - from free Creative Commons to premium commercial licenses with custom pricing.'
-    },
-    {
-      number: 3,
-      icon: DollarSign,
-      title: 'Earn & Grow',
-      description: 'Get paid when others download your content. Track analytics and build your creator brand with our comprehensive dashboard.'
+      description: 'Choose from various Creative Commons licensing options to share your content with the community.'
     }
   ];
 
@@ -48,7 +43,7 @@ const HowItWorks: React.FC = () => {
         </div>
 
         {/* Steps */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {steps.map((step, index) => (
             <div
               key={step.number}

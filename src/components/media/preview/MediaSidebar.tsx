@@ -29,10 +29,10 @@ export function MediaSidebar({
   };
 
   const downloadSizes = [
-    { label: "Small", size: "640x360", price: "Free" },
-    { label: "Medium", size: "1280x720", price: "Free" },
-    { label: "Large", size: "1920x1080", price: "$2.99" },
-    { label: "Original", size: "4K", price: "$4.99" },
+    { label: "Small", size: "640x360" },
+    { label: "Medium", size: "1280x720" },
+    { label: "Large", size: "1920x1080" },
+    { label: "Original", size: "4K" },
   ];
 
   return (
@@ -62,8 +62,8 @@ export function MediaSidebar({
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
                   {size.label} ({size.size})
                 </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {size.price}
+                <span className="text-sm text-green-600 dark:text-green-400 font-medium">
+                  Free
                 </span>
               </button>
             ))}

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useUser, UserButton, SignInButton, SignUpButton } from "@clerk/clerk-react";
 import { Button } from "../components/ui/Button";
 
 export function Navbar() {
-  const navigate = useNavigate();
+  const { isSignedIn } = useUser();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
@@ -46,16 +46,28 @@ export function Navbar() {
               >
                 Why OpenLens
               </button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </Button>
-              <Button size="sm" onClick={() => navigate("/register")}>
-                Sign Up
-              </Button>
+              {isSignedIn ? (
+                <UserButton 
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-8 h-8",
+                    },
+                  }}
+                />
+              ) : (
+                <>
+                  <SignInButton mode="modal">
+                    <Button variant="outline" size="sm">
+                      Login
+                    </Button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <Button size="sm">
+                      Sign Up
+                    </Button>
+                  </SignUpButton>
+                </>
+              )}
             </div>
           </div>
 
@@ -122,16 +134,24 @@ export function Navbar() {
             Why OpenLens
           </button>
           <div className="mt-4 space-y-2 px-3">
-            <Button
-              variant="outline"
-              fullWidth
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </Button>
-            <Button fullWidth onClick={() => navigate("/register")}>
-              Sign Up
-            </Button>
+            {isSignedIn ? (
+              <div className="flex justify-center">
+                <UserButton />
+              </div>
+            ) : (
+              <>
+                <SignInButton mode="modal">
+                  <Button variant="outline" fullWidth>
+                    Login
+                  </Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button fullWidth>
+                    Sign Up
+                  </Button>
+                </SignUpButton>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { User, Badge } from "../../types/dashboard";
+import { useUser } from "@clerk/clerk-react";
+import { Badge } from "../../types/dashboard";
 
 interface ProfileHeaderProps {
-  user: User;
+  user: any;
   onUpdateAvatar: (file: File) => void;
   onUpdateBio: (bio: string) => void;
 }
@@ -179,12 +180,6 @@ export function ProfileHeader({
             <p className="text-sm text-gray-500 dark:text-gray-400">Views</p>
             <p className="text-xl font-semibold text-gray-900 dark:text-white">
               {user.stats.views}
-            </p>
-          </div>
-          <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Earnings</p>
-            <p className="text-xl font-semibold text-gray-900 dark:text-white">
-              ${user.stats.earnings}
             </p>
           </div>
         </div>

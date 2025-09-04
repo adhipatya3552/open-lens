@@ -1,50 +1,44 @@
 import { ProfileHeader } from "./ProfileHeader";
-import { User } from "../../types/dashboard";
+import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 
-// Mock user data - replace with actual user data from your auth system
-const mockUser: User = {
-  id: "1",
-  name: "John Doe",
-  username: "johndoe",
-  email: "john@example.com",
-  avatar: "https://ui-avatars.com/api/?name=John+Doe",
-  bio: "Digital content creator",
-  isVerified: true,
-  isCreator: true,
-  joinedDate: new Date().toISOString(),
-  stats: {
-    uploads: 42,
-    downloads: 1337,
-    followers: 256,
-    views: 10000,
-    following: 100,
-    earnings: 2500,
-  },
-  badges: [
-    { 
-      id: "1",
-      name: "Pro Creator", 
-      color: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-      icon: "💎"
-    },
-    { 
-      id: "2",
-      name: "Early Adopter", 
-      color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-      icon: "🚀"
-    },
-  ],
-  socialLinks: {
-    website: "https://johndoe.com",
-    twitter: "johndoe",
-    instagram: "johndoe.creates",
-  }
-};
-
 export function DashboardOverview() {
+  const { user } = useUser();
   const navigate = useNavigate();
   
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  // Transform Clerk user to our User type
+  const transformedUser = {
+    id: user.id,
+    name: user.fullName || user.firstName || "User",
+    username: user.username || user.emailAddresses[0]?.emailAddress.split('@')[0] || "user",
+    email: user.emailAddresses[0]?.emailAddress || "",
+    avatar: user.imageUrl,
+    bio: user.publicMetadata?.bio as string || "OpenLens community member",
+    isVerified: user.publicMetadata?.isVerified as boolean || false,
+    isCreator: user.publicMetadata?.isCreator as boolean || true,
+    joinedDate: user.createdAt?.toISOString() || new Date().toISOString(),
+    stats: {
+      uploads: user.publicMetadata?.uploads as number || 0,
+      downloads: user.publicMetadata?.downloads as number || 0,
+      followers: user.publicMetadata?.followers as number || 0,
+      views: user.publicMetadata?.views as number || 0,
+      following: user.publicMetadata?.following as number || 0,
+    },
+    badges: user.publicMetadata?.badges as any[] || [
+      { 
+        id: "1",
+        name: "Community Member", 
+        color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+        icon: "🌟"
+      },
+    ],
+    socialLinks: user.publicMetadata?.socialLinks as any || {},
+  };
+
   const handleUpdateAvatar = async (file: File) => {
     // Implement avatar update logic
     console.log("Updating avatar:", file);
@@ -59,7 +53,7 @@ export function DashboardOverview() {
     <div className="space-y-6">
       {/* Profile Header */}
       <ProfileHeader
-        user={mockUser}
+        user={transformedUser}
         onUpdateAvatar={handleUpdateAvatar}
         onUpdateBio={handleUpdateBio}
       />
@@ -88,7 +82,7 @@ export function DashboardOverview() {
                 Total Media
               </h3>
               <p className="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
-                {mockUser.stats.uploads}
+                {transformedUser.stats.uploads}
               </p>
             </div>
           </div>
@@ -116,7 +110,7 @@ export function DashboardOverview() {
                 Total Downloads
               </h3>
               <p className="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
-                {mockUser.stats.downloads}
+                {transformedUser.stats.downloads}
               </p>
             </div>
           </div>
@@ -144,43 +138,16 @@ export function DashboardOverview() {
                 Followers
               </h3>
               <p className="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
-                {mockUser.stats.followers}
+                {transformedUser.stats.followers}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
-          <div className="flex items-center">
-            <div className="rounded-lg bg-yellow-500/10 p-3">
-              <svg
-                className="h-8 w-8 text-yellow-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Total Earnings
-              </h3>
-              <p className="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
-                ${mockUser.stats.earnings.toLocaleString()}
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-3">
         <button 
           onClick={() => navigate('/dashboard/upload')}
           className="flex items-center justify-center rounded-xl bg-blue-500 p-6 text-white shadow-sm transition-transform hover:scale-105">

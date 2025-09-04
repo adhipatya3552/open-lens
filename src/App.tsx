@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
 import { Toaster } from "react-hot-toast";
-import { LoginPage } from "./components/auth/LoginPage";
-import { RegisterPage } from "./components/auth/RegisterPage";
+import { ClerkSignInPage } from "./components/auth/ClerkSignInPage";
+import { ClerkSignUpPage } from "./components/auth/ClerkSignUpPage";
 import { MediaBrowser } from "./components/media/MediaBrowser";
 import { MediaUpload } from "./components/media/MediaUpload";
 import { DashboardLayout } from "./components/dashboard/DashboardLayout";
@@ -23,10 +24,6 @@ const mockAnalytics = {
   dailyDownloads: Array.from({ length: 7 }, (_, i) => ({
     date: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString(),
     downloads: Math.floor(Math.random() * 100),
-  })),
-  dailyEarnings: Array.from({ length: 7 }, (_, i) => ({
-    date: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString(),
-    amount: Math.floor(Math.random() * 500),
   })),
   popularContent: [],
   topCountries: [
@@ -63,18 +60,49 @@ const App = () => {
       <div className="min-h-screen bg-white font-sans antialiased dark:bg-gray-900">
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<ClerkSignInPage />} />
+          <Route path="/register" element={<ClerkSignUpPage />} />
           <Route path="/browse" element={<MediaBrowser />} />
-          <Route path="/upload" element={<MediaUpload />} />
+          <Route path="/upload" element={
+            <SignedIn>
+              <MediaUpload />
+            </SignedIn>
+          } />
           
           {/* Dashboard Routes */}
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardOverview />} />
-            <Route path="analytics" element={<Analytics data={mockAnalytics} />} />
-            <Route path="media" element={<MediaBrowser />} />
-            <Route path="upload" element={<MediaUpload />} />
+          <Route path="/dashboard" element={
+            <SignedIn>
+              <DashboardLayout />
+            </SignedIn>
+          }>
+            <Route index element={
+              <SignedIn>
+                <DashboardOverview />
+              </SignedIn>
+            } />
+            <Route path="analytics" element={
+              <SignedIn>
+                <Analytics data={mockAnalytics} />
+              </SignedIn>
+            } />
+            <Route path="media" element={
+              <SignedIn>
+                <MediaBrowser />
+              </SignedIn>
+            } />
+            <Route path="upload" element={
+              <SignedIn>
+                <MediaUpload />
+              </SignedIn>
+            } />
           </Route>
+          
+          {/* Redirect to sign-in for protected routes when signed out */}
+          <Route path="/dashboard/*" element={
+            <SignedOut>
+              <RedirectToSignIn />
+            </SignedOut>
+          } />
         </Routes>
       </div>
       <Toaster

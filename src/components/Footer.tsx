@@ -3,8 +3,8 @@ import { Camera, Twitter, Instagram, Facebook, Youtube, Mail } from 'lucide-reac
 
 const Footer: React.FC = () => {
   const footerLinks = {
-    Product: ['Features', 'Pricing', 'AI Tools', 'API', 'Mobile App'],
-    Creators: ['Creator Hub', 'Earnings', 'Resources', 'Community', 'Success Stories'],
+    Product: ['Features', 'AI Tools', 'API', 'Mobile App'],
+    Creators: ['Creator Hub', 'Resources', 'Community', 'Success Stories'],
     Legal: ['Terms of Service', 'Privacy Policy', 'Licensing', 'DMCA', 'Cookie Policy'],
     Support: ['Help Center', 'Contact Us', 'Status', 'Blog', 'Guidelines']
   };
