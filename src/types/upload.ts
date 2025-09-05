@@ -18,6 +18,7 @@ export interface FileMetadata {
   category: string;
   subcategory?: string;
   customCategory?: string;
+  collectionId?: string;
 }
 
 export interface Category {
@@ -25,6 +26,41 @@ export interface Category {
   name: string;
   description: string;
 }
+
+export interface Collection {
+  id: string;
+  name: string;
+  description: string;
+  itemCount: number;
+}
+
+// Mock collections for demonstration
+export const MOCK_COLLECTIONS: Collection[] = [
+  {
+    id: "favorites",
+    name: "My Favorites",
+    description: "Personal collection of favorite media",
+    itemCount: 24,
+  },
+  {
+    id: "nature",
+    name: "Nature Photography",
+    description: "Beautiful landscapes and wildlife",
+    itemCount: 156,
+  },
+  {
+    id: "urban",
+    name: "Urban Exploration",
+    description: "City life and architecture",
+    itemCount: 89,
+  },
+  {
+    id: "portraits",
+    name: "Portrait Collection",
+    description: "People and lifestyle photography",
+    itemCount: 67,
+  },
+];
 
 export const SUPPORTED_FORMATS = {
   image: ["image/jpeg", "image/png", "image/gif", "image/webp"],

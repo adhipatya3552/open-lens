@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { UploadFile, LICENSE_INFO } from "../../types/upload";
+import { UploadFile, LICENSE_INFO, MOCK_COLLECTIONS } from "../../types/upload";
 import { TagInput } from "../ui/TagInput";
 import { Input } from "../ui/Input";
 import { Category, defaultCategories } from "../../types/categories";
 import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
 
 interface FileUploadCardProps {
   file: UploadFile;
@@ -16,14 +17,20 @@ export function FileUploadCard({
   onUpdate,
   onRemove,
 }: FileUploadCardProps) {
+  const [showLicenseTooltip, setShowLicenseTooltip] = useState(false);
+
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg hover:shadow-xl transition-all duration-300 dark:border-gray-700 dark:bg-gray-800"
+    >
       {/* Preview */}
-      <div className="relative aspect-video bg-gray-100 dark:bg-gray-900">
+      <div className="relative aspect-video bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
         {file.file.type.startsWith("video/") ? (
           <video
             src={file.preview}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover rounded-t-xl"
             controls
             muted
           />
@@ -31,50 +38,66 @@ export function FileUploadCard({
           <img
             src={file.preview}
             alt={file.metadata.title || file.file.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover rounded-t-xl"
           />
         )}
 
         {/* Progress Overlay */}
         {file.status === "uploading" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-t-xl"
+          >
             <div className="w-2/3 space-y-2">
-              <div className="h-2 overflow-hidden rounded-full bg-gray-200">
-                <div
+              <div className="h-3 overflow-hidden rounded-full bg-white/20 backdrop-blur-sm">
+                <motion.div
                   className="h-full rounded-full bg-blue-500 transition-all duration-300"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${file.progress}%` }}
                   style={{ width: `${file.progress}%` }}
                 />
               </div>
-              <p className="text-center text-sm text-white">
+              <p className="text-center text-sm font-medium text-white">
                 Uploading... {file.progress}%
               </p>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Success/Error Overlay */}
         {(file.status === "success" || file.status === "error") && (
-          <div
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             className={`absolute inset-0 flex items-center justify-center ${
               file.status === "success"
-                ? "bg-green-500/50"
-                : "bg-red-500/50"
-            } backdrop-blur-sm`}
+                ? "bg-green-500/80"
+                : "bg-red-500/80"
+            } backdrop-blur-sm rounded-t-xl`}
           >
             {file.status === "success" ? (
-              <svg
-                className="h-16 w-16 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="text-center"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+                <svg
+                  className="h-16 w-16 text-white mx-auto mb-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p className="text-white font-medium">Upload Complete!</p>
+              </motion.div>
             ) : (
               <div className="text-center text-white">
                 <svg
@@ -90,16 +113,16 @@ export function FileUploadCard({
                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <p className="mt-2">{file.error}</p>
+                <p className="mt-2 font-medium">{file.error}</p>
               </div>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* Remove Button */}
         <button
           onClick={() => onRemove(file.id)}
-          className="absolute right-2 top-2 rounded-full bg-black/50 p-1 text-white backdrop-blur-sm transition-transform hover:scale-110"
+          className="absolute right-3 top-3 rounded-full bg-red-500/80 p-2 text-white backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-red-600"
         >
           <svg
             className="h-5 w-5"
@@ -118,16 +141,17 @@ export function FileUploadCard({
       </div>
 
       {/* Metadata Form */}
-      <div className="space-y-4 p-4">
+      <div className="space-y-6 p-6">
         <Input
           label="Title"
           value={file.metadata.title}
           onChange={(e) => onUpdate(file.id, { title: e.target.value })}
-          placeholder="Enter a title..."
+          placeholder="Give your media a compelling title..."
+          className="transition-all duration-200 focus:ring-2 focus:ring-blue-500/20"
         />
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
             Description
           </label>
           <textarea
@@ -136,14 +160,14 @@ export function FileUploadCard({
               onUpdate(file.id, { description: e.target.value })
             }
             rows={3}
-            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-            placeholder="Add a description..."
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            placeholder="Describe your media, its story, or technical details..."
           />
         </div>
 
         {/* Category Selection */}
         <div className="space-y-4">
-          <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
             Category
           </label>
           <div className="grid grid-cols-1 gap-4">
@@ -156,7 +180,7 @@ export function FileUploadCard({
                   subcategory: "" // Reset subcategory when category changes
                 });
               }}
-              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             >
               <option value="">Select Category</option>
               {defaultCategories.map((category) => (
@@ -195,7 +219,7 @@ export function FileUploadCard({
               <select
                 value={file.metadata.subcategory || ""}
                 onChange={(e) => onUpdate(file.id, { subcategory: e.target.value })}
-                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
               >
                 <option value="">Select Subcategory</option>
                 {defaultCategories
@@ -211,17 +235,62 @@ export function FileUploadCard({
           </div>
         </div>
 
-        {/* License Selection */}
+        {/* Collection Assignment */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            License
+          <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Add to Collection
           </label>
+          <select
+            value={file.metadata.collectionId || ""}
+            onChange={(e) => onUpdate(file.id, { collectionId: e.target.value || undefined })}
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+          >
+            <option value="">No Collection</option>
+            {MOCK_COLLECTIONS.map((collection) => (
+              <option key={collection.id} value={collection.id}>
+                {collection.name} ({collection.itemCount} items)
+              </option>
+            ))}
+          </select>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Organize your media by adding it to a collection
+          </p>
+        </div>
+
+        {/* License Selection */}
+        <div className="relative">
+          <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+            License
+            <button
+              type="button"
+              onMouseEnter={() => setShowLicenseTooltip(true)}
+              onMouseLeave={() => setShowLicenseTooltip(false)}
+              className="ml-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-400"
+            >
+              <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+              </svg>
+            </button>
+          </label>
+          
+          {showLicenseTooltip && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="absolute top-full left-0 z-10 mt-2 w-80 rounded-lg bg-gray-900 p-3 text-sm text-white shadow-lg"
+            >
+              <p className="font-medium mb-1">License Information</p>
+              <p>Choose how others can use your content. Each license has different permissions and requirements.</p>
+              <div className="mt-1 h-2 w-2 bg-gray-900 transform rotate-45 absolute -top-1 left-4"></div>
+            </motion.div>
+          )}
+          
           <select
             value={file.metadata.license}
             onChange={(e) =>
               onUpdate(file.id, { license: e.target.value as any })
             }
-            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
           >
             {Object.entries(LICENSE_INFO).map(([license, info]) => (
               <option key={license} value={license} title={info.description}>
@@ -229,9 +298,14 @@ export function FileUploadCard({
               </option>
             ))}
           </select>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          <motion.p 
+            key={file.metadata.license}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-2 text-sm text-gray-600 dark:text-gray-400 leading-relaxed"
+          >
             {LICENSE_INFO[file.metadata.license].description}
-          </p>
+          </motion.p>
         </div>
 
         <TagInput
@@ -247,9 +321,13 @@ export function FileUploadCard({
             "landscape",
             "portrait",
             "wildlife",
+            "architecture",
+            "street",
+            "macro",
+            "minimalist",
           ]}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
