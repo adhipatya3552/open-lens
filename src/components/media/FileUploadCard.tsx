@@ -238,12 +238,12 @@ export function FileUploadCard({
         {/* Collection Assignment */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Add to Collection
+            Add to Collection (Optional)
           </label>
           <select
             value={file.metadata.collectionId || ""}
             onChange={(e) => onUpdate(file.id, { collectionId: e.target.value || undefined })}
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white hover:border-blue-400"
           >
             <option value="">No Collection</option>
             {MOCK_COLLECTIONS.map((collection) => (
@@ -253,14 +253,14 @@ export function FileUploadCard({
             ))}
           </select>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Organize your media by adding it to a collection
+            📁 Organize your media by adding it to a collection
           </p>
         </div>
 
         {/* License Selection */}
         <div className="relative">
           <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            License
+            License *
             <button
               type="button"
               onMouseEnter={() => setShowLicenseTooltip(true)}
@@ -290,7 +290,7 @@ export function FileUploadCard({
             onChange={(e) =>
               onUpdate(file.id, { license: e.target.value as any })
             }
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white hover:border-blue-400"
           >
             {Object.entries(LICENSE_INFO).map(([license, info]) => (
               <option key={license} value={license} title={info.description}>
@@ -309,7 +309,7 @@ export function FileUploadCard({
         </div>
 
         <TagInput
-          label="Tags"
+          label="Tags (Recommended)"
           tags={file.metadata.tags}
           onChange={(tags) => onUpdate(file.id, { tags })}
           suggestions={[

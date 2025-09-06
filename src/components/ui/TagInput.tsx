@@ -85,18 +85,18 @@ export function TagInput({
       <div
         className={`group flex flex-wrap gap-2 rounded-lg border bg-white p-2 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 ${
           error ? "border-red-500" : "border-gray-300"
-        }`}
+        } hover:border-blue-400 transition-colors duration-200`}
       >
         {tags.map((tag) => (
           <span
             key={tag}
-            className="flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+            className="flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-100 to-blue-200 px-3 py-1 text-sm text-blue-800 dark:from-blue-900 dark:to-blue-800 dark:text-blue-200 shadow-sm"
           >
             {tag}
             <button
               type="button"
               onClick={() => removeTag(tag)}
-              className="rounded-full p-0.5 hover:bg-blue-200 dark:hover:bg-blue-800"
+              className="rounded-full p-0.5 hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors duration-150"
             >
               <svg
                 className="h-3 w-3"
@@ -124,7 +124,7 @@ export function TagInput({
           }}
           onKeyDown={handleKeyDown}
           onFocus={() => setShowSuggestions(true)}
-          className="flex-1 border-none bg-transparent p-1 focus:outline-none dark:text-white"
+          className="flex-1 border-none bg-transparent p-1 focus:outline-none dark:text-white placeholder-gray-400"
           placeholder={tags.length === 0 ? "Add tags..." : ""}
         />
       </div>
@@ -134,9 +134,9 @@ export function TagInput({
         </p>
       )}
       {/* Popular Tags and Categories - Always visible */}
-      <div className="mt-2 rounded-lg border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <div className="mt-2 rounded-lg border border-gray-300 bg-white/80 backdrop-blur-sm shadow-lg dark:border-gray-700 dark:bg-gray-800/80">
         <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Popular Tags</h4>
+          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">🏷️ Popular Tags</h4>
           <div className="flex flex-wrap gap-2">
             {Object.values(predefinedTags)
               .flat()
@@ -148,8 +148,8 @@ export function TagInput({
                   disabled={tags.includes(tag)}
                   className={`rounded-full px-3 py-1 text-sm transition-colors ${
                     tags.includes(tag)
-                      ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200"
-                      : "bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-blue-900/30 dark:hover:text-blue-200"
+                      ? "bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 dark:from-blue-900/50 dark:to-blue-800/50 dark:text-blue-200 shadow-sm"
+                      : "bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:from-blue-900/30 dark:hover:to-blue-800/30 dark:hover:text-blue-200 hover:shadow-sm"
                   }`}
                 >
                   {tag}

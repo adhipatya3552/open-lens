@@ -26,6 +26,16 @@ a {
   @apply transition-all duration-200;
 }
 
+/* Enhanced button hover effects */
+button {
+  @apply transition-all duration-200;
+}
+
+/* Enhanced input focus effects */
+input, textarea, select {
+  @apply transition-all duration-200;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -64,6 +74,11 @@ a {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+/* Enhanced scale hover effect */
+.hover-scale-102:hover {
+  transform: scale(1.02);
+}
+
 /* Custom animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
@@ -75,6 +90,22 @@ a {
   50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
 }
 
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+    transform: scale(1.02);
+  }
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -83,21 +114,31 @@ a {
   animation: glow 2s ease-in-out infinite;
 }
 
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
 /* Drag and drop styles */
 .drag-active {
-  @apply border-blue-500 bg-blue-50 scale-105;
+  @apply border-blue-500 bg-blue-50 scale-105 shadow-xl;
+  box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
 }
 
 /* File upload progress */
 .upload-progress {
   background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
   background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+  animation: shimmer 1.5s infinite;
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+/* Enhanced upload success animation */
+.upload-success {
+  background: linear-gradient(45deg, #10b981, #059669);
+  animation: pulse-glow 1s ease-in-out;
 }
 
 /* Success celebration */
@@ -108,6 +149,17 @@ a {
 
 .confetti {
   animation: confetti 3s ease-out forwards;
+}
+
+/* Enhanced gradient animations */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
 }
 
 /* Improved focus styles */
