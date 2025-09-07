@@ -7,7 +7,7 @@ const CreatorBenefits: React.FC = () => {
     {
       icon: Users,
       title: 'Global Audience',
-      description: 'Reach millions of buyers worldwide across diverse industries and creative fields.'
+      description: 'Reach millions of buyers worldwide across diverse industries and creative fields.',
       highlight: true
     },
     {

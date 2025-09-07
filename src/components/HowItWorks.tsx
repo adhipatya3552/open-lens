@@ -14,7 +14,6 @@ const HowItWorks: React.FC = () => {
       number: 2,
       icon: Palette,
       title: 'Set Your License',
-      description: 'Choose from various licensing options - from free Creative Commons to premium commercial licenses with custom pricing.'
       description: 'Choose from various Creative Commons licensing options to share your content with the community.'
     }
   ];
