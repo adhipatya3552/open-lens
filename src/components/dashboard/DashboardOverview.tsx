@@ -144,6 +144,39 @@ export function DashboardOverview() {
           </div>
         </div>
 
+        <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
+          <div className="flex items-center">
+            <div className="rounded-lg bg-orange-500/10 p-3">
+              <svg
+                className="h-8 w-8 text-orange-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+            </div>
+            <div className="ml-4">
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Total Views
+              </h3>
+              <p className="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
+                {transformedUser.stats.views}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Quick Actions */}
@@ -168,7 +201,7 @@ export function DashboardOverview() {
         </button>
 
         <button 
-          onClick={() => navigate('/dashboard/collections/create')}
+          onClick={() => navigate('/dashboard/collections')}
           className="flex items-center justify-center rounded-xl bg-purple-500 p-6 text-white shadow-sm transition-transform hover:scale-105">
           <svg
             className="mr-3 h-6 w-6"
@@ -183,7 +216,7 @@ export function DashboardOverview() {
               d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
             />
           </svg>
-          Create Collection
+          View Collections
         </button>
 
         <button 

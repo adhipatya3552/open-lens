@@ -58,6 +58,7 @@ export interface AnalyticsData {
     item: MediaItem;
     views: number;
     downloads: number;
+    earnings: number;
   }[];
   topCountries: {
     country: string;
