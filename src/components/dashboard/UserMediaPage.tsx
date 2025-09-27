@@ -232,7 +232,6 @@ export function UserMediaPage() {
       >
         <MediaGrid
           items={sortedItems}
-          loading={loading}
           selectable
           selectedItems={selectedItems}
           onSelectionChange={handleSelectionChange}

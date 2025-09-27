@@ -5,6 +5,7 @@ import { ClerkSignInPage } from "./components/auth/ClerkSignInPage";
 import { ClerkSignUpPage } from "./components/auth/ClerkSignUpPage";
 import { MediaBrowser } from "./components/media/MediaBrowser";
 import { MediaUpload } from "./components/media/MediaUpload";
+import { MediaPreviewPage } from "./components/media/preview/MediaPreviewPage";
 import { DashboardLayout } from "./components/dashboard/DashboardLayout";
 import { DashboardOverview } from "./components/dashboard/DashboardOverview";
 import { Analytics } from "./components/dashboard/Analytics";
@@ -94,7 +95,7 @@ const App = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<ClerkSignInPage />} />
           <Route path="/register" element={<ClerkSignUpPage />} />
-          <Route path="/browse" element={<MediaBrowser />} />
+          <Route path="/media/:id" element={<MediaPreviewPage />} />
           <Route path="/upload" element={
             <SignedIn>
               <MediaUpload />

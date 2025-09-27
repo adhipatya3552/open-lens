@@ -128,7 +128,6 @@ export function MediaBrowser() {
         <MediaGrid
           items={items}
           loading={loading}
-          onLoadMore={handleLoadMore}
         />
       </div>
     </div>

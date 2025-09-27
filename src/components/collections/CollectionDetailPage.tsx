@@ -137,7 +137,12 @@ export function CollectionDetailPage() {
       {/* Media Grid */}
       <div className="mb-8">
         {items.length > 0 ? (
-          <MediaGrid items={items} />
+          <MediaGrid 
+            items={items}
+            selectable
+            selectedItems={new Set()}
+            onSelectionChange={() => {}}
+          />
         ) : (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

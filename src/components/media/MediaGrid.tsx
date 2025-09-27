@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { MediaItem } from "../../types/media";
 import { MediaCard } from "./MediaCard";
-import { PreviewModal } from "./PreviewModal";
 
 interface MediaGridProps {
   items: MediaItem[];
@@ -20,11 +20,11 @@ export function MediaGrid({
   selectedItems,
   onSelectionChange,
 }: MediaGridProps) {
-  const [selectedItem, setSelectedItem] = useState<MediaItem | null>(null);
+  const navigate = useNavigate();
   const observerTarget = useRef<HTMLDivElement>(null);
 
   const handlePreview = (item: MediaItem) => {
-    setSelectedItem(item);
+    navigate(`/media/${item.id}`);
   };
 
   const handleFavorite = (id: string, favorited: boolean) => {
@@ -101,14 +101,6 @@ export function MediaGrid({
       {/* Infinite scroll observer */}
       {onLoadMore && (
         <div ref={observerTarget} className="h-10 w-full" />
-      )}
-
-      {/* Preview Modal */}
-      {selectedItem && (
-        <PreviewModal
-          item={selectedItem}
-          onClose={() => setSelectedItem(null)}
-        />
       )}
     </>
   );
