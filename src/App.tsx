@@ -12,6 +12,7 @@ import { Analytics } from "./components/dashboard/Analytics";
 import { UserMediaPage } from "./components/dashboard/UserMediaPage";
 import { SettingsPage } from "./components/dashboard/SettingsPage";
 import { CollectionsPage } from "./components/collections/CollectionsPage";
+import { CollectionDetailPage } from "./components/collections/CollectionDetailPage";
 import { Navbar } from "./components/Navbar";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -96,6 +97,11 @@ const App = () => {
           <Route path="/login" element={<ClerkSignInPage />} />
           <Route path="/register" element={<ClerkSignUpPage />} />
           <Route path="/media/:id" element={<MediaPreviewPage />} />
+          <Route path="/collections/:id" element={
+            <SignedIn>
+              <CollectionDetailPage />
+            </SignedIn>
+          } />
           <Route path="/upload" element={
             <SignedIn>
               <MediaUpload />
