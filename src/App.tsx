@@ -6,6 +6,7 @@ import { ClerkSignUpPage } from "./components/auth/ClerkSignUpPage";
 import { MediaBrowser } from "./components/media/MediaBrowser";
 import { MediaUpload } from "./components/media/MediaUpload";
 import { MediaPreviewPage } from "./components/media/preview/MediaPreviewPage";
+import { SearchPage } from "./components/search/SearchPage";
 import { DashboardLayout } from "./components/dashboard/DashboardLayout";
 import { DashboardOverview } from "./components/dashboard/DashboardOverview";
 import { Analytics } from "./components/dashboard/Analytics";
@@ -94,6 +95,7 @@ const App = () => {
       <div className="min-h-screen bg-white font-sans antialiased dark:bg-gray-900">
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/login" element={<ClerkSignInPage />} />
           <Route path="/register" element={<ClerkSignUpPage />} />
           <Route path="/media/:id" element={<MediaPreviewPage />} />
